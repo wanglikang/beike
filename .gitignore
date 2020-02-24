@@ -1,0 +1,7 @@
+/.idea/
+!/.idea/deployment.xml
+!/.idea/dataSources.xml
+!/.idea/webServers.xml
+/target/
+/logs/
+/sql/

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.demo.beike.entity.dao.PersonalAppointmentMapper" >
+  <resultMap id="BaseResultMap" type="cn.demo.beike.entity.PersonalAppointment" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="personNumber" property="personnumber" jdbcType="INTEGER" />
+    <result column="appointmentDetailID" property="appointmentdetailid" jdbcType="INTEGER" />
+    <result column="time" property="time" jdbcType="TIMESTAMP" />
+    <result column="flag" property="flag" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, personNumber, appointmentDetailID, time, flag
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from personalAppointment
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from personalAppointment
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.demo.beike.entity.PersonalAppointment" >
+    insert into personalAppointment (id, personNumber, appointmentDetailID, 
+      time, flag)
+    values (#{id,jdbcType=INTEGER}, #{personnumber,jdbcType=INTEGER}, #{appointmentdetailid,jdbcType=INTEGER}, 
+      #{time,jdbcType=TIMESTAMP}, #{flag,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.demo.beike.entity.PersonalAppointment" >
+    insert into personalAppointment
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="personnumber != null" >
+        personNumber,
+      </if>
+      <if test="appointmentdetailid != null" >
+        appointmentDetailID,
+      </if>
+      <if test="time != null" >
+        time,
+      </if>
+      <if test="flag != null" >
+        flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="personnumber != null" >
+        #{personnumber,jdbcType=INTEGER},
+      </if>
+      <if test="appointmentdetailid != null" >
+        #{appointmentdetailid,jdbcType=INTEGER},
+      </if>
+      <if test="time != null" >
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="flag != null" >
+        #{flag,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.demo.beike.entity.PersonalAppointment" >
+    update personalAppointment
+    <set >
+      <if test="personnumber != null" >
+        personNumber = #{personnumber,jdbcType=INTEGER},
+      </if>
+      <if test="appointmentdetailid != null" >
+        appointmentDetailID = #{appointmentdetailid,jdbcType=INTEGER},
+      </if>
+      <if test="time != null" >
+        time = #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="flag != null" >
+        flag = #{flag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.demo.beike.entity.PersonalAppointment" >
+    update personalAppointment
+    set personNumber = #{personnumber,jdbcType=INTEGER},
+      appointmentDetailID = #{appointmentdetailid,jdbcType=INTEGER},
+      time = #{time,jdbcType=TIMESTAMP},
+      flag = #{flag,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

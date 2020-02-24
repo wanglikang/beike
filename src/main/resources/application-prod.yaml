@@ -1,0 +1,49 @@
+server:
+#  port: 443
+  port: 80
+  address: 0.0.0.0
+  sessionTimeout: 30
+  servlet:
+    context-path: /beike
+#  ssl:
+    #    证书路径
+#    protocol: TLS
+    #    key-store: classpath:3025365_www.lideshuai.cn.pfx
+#    key-store: classpath:3303574_www.zhishishua.com.pfx
+#    key-store-type: PKCS12
+#    key-alias: tomcat
+    #    配置密码，就是在生成证书的时候输入的密码
+    #    key-store-password: 2uXbb7Tx
+#    key-store-password: RSjCSc01
+
+
+spring:
+  datasource:
+    name: test1
+    url: jdbc:mysql://www.lideshuai.cn:3306/beike?characterEncoding=utf8&useSSL=false
+    driver-class-name: com.mysql.jdbc.Driver
+    #    type: com.alibaba.druid.pool.DruidDataSource
+    username: xxxxxxx
+    password: xxxxxxx
+
+  #    设置最大文件上传大小
+  servlet:
+    multipart:
+      max-file-size: 10Mb
+      max-request-size: 100Mb
+
+
+mybatis:
+  type-aliases-package: cn.demo.beike.entity
+  mapper-locations: classpath:mapper/*.xml
+
+beike:
+  redis:
+    ip: localhost
+    port: 6379
+    maxTotal: 20
+    password: redis-root
+
+    images_path: /root/workspace/studyTool/images
+    feedback_path: /root/workspace/studyTool/feedbackImages
+    server_url : https://www.zhishishua.com

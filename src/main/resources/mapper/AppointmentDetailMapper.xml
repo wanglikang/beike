@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.demo.beike.entity.dao.AppointmentDetailMapper" >
+  <resultMap id="BaseResultMap" type="cn.demo.beike.entity.AppointmentDetail" >
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="personNumber" property="personnumber" jdbcType="INTEGER" />
+    <result column="beginTime" property="begintime" jdbcType="TIMESTAMP" />
+    <result column="endTime" property="endtime" jdbcType="TIMESTAMP" />
+    <result column="number" property="number" jdbcType="INTEGER" />
+    <result column="appointmentID" property="appointmentid" jdbcType="INTEGER" />
+  </resultMap>
+  <insert id="insert" parameterType="cn.demo.beike.entity.AppointmentDetail" >
+    insert into appointmentDetail (id, personNumber, beginTime, 
+      endTime, number, appointmentID
+      )
+    values (#{id,jdbcType=INTEGER}, #{personnumber,jdbcType=INTEGER}, #{begintime,jdbcType=TIMESTAMP}, 
+      #{endtime,jdbcType=TIMESTAMP}, #{number,jdbcType=INTEGER}, #{appointmentid,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.demo.beike.entity.AppointmentDetail" >
+    insert into appointmentDetail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="personnumber != null" >
+        personNumber,
+      </if>
+      <if test="begintime != null" >
+        beginTime,
+      </if>
+      <if test="endtime != null" >
+        endTime,
+      </if>
+      <if test="number != null" >
+        number,
+      </if>
+      <if test="appointmentid != null" >
+        appointmentID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="personnumber != null" >
+        #{personnumber,jdbcType=INTEGER},
+      </if>
+      <if test="begintime != null" >
+        #{begintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endtime != null" >
+        #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="number != null" >
+        #{number,jdbcType=INTEGER},
+      </if>
+      <if test="appointmentid != null" >
+        #{appointmentid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+</mapper>
