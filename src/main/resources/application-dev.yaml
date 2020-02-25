@@ -11,8 +11,8 @@ spring:
     url: jdbc:mysql://www.lideshuai.cn:3306/beike?characterEncoding=utf8&useSSL=false
     driver-class-name: com.mysql.jdbc.Driver
     #    type: com.alibaba.druid.pool.DruidDataSource
-    username: xxxxxxx
-    password: xxxxxxx
+    username: root
+    password: lds819808
 
   #    设置最大文件上传大小
   servlet:
