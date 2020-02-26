@@ -1,5 +1,6 @@
 package cn.demo.beike.controller;
 
+import cn.demo.beike.entity.Appointment;
 import cn.demo.beike.entity.Root;
 import cn.demo.beike.entity.Type;
 import cn.demo.beike.entity.dao.AppointmentMapper;
@@ -65,17 +66,10 @@ public class PCController {
 
     @PostMapping("/NewAppointment")
     @ResponseBody
-    public String NewAppointment(@RequestBody JSONObject  jsonparam) {
+    public String NewAppointment(@RequestBody JSONObject jsonparam) {
         System.out.println(jsonparam);
-        Integer typeid = jsonparam.getInteger("typeid");
-        Date createtime = jsonparam.getDate("createtime");
-        Date detaildate = jsonparam.getDate("detaildate");
-        Date begintime = jsonparam.getDate("begintime");
-        Date endtime = jsonparam.getDate("endtime");
-        Integer limitnum = jsonparam.getInteger("limitnum");
-        String flag = jsonparam.getString("flag");
-        Date limittime = jsonparam.getDate("limittime");
-        Integer id = appointmentMapper.insert(typeid, createtime, detaildate, begintime, endtime, limitnum, flag, limittime);
+        Appointment appointment = jsonparam.toJavaObject(Appointment.class);
+        Integer id = appointmentMapper.insert(appointment);
         JSONObject result = new JSONObject();
         if (id != null) {
             result.put("SUCCESS", true);
@@ -87,7 +81,7 @@ public class PCController {
         return result.toJSONString();
     }
 
-    @RequestMapping("/GetALLType")
+    @GetMapping("/GetALLType")
     public String GetALLType() {
         JSONArray result = new JSONArray();
         List<Type> types = typeMapper.selectAllType();

@@ -25,16 +25,16 @@
     delete from appointment
     where id = #{id,jdbcType=INTEGER}
   </delete>
-<!--  <insert id="insert" parameterType="cn.demo.beike.entity.Appointment" >-->
-<!--    insert into appointment (id, typeID, createTime, -->
-<!--      detailDate, beginTime, endTime, -->
-<!--      limitNum, flag, limitTime-->
-<!--      )-->
-<!--    values (#{id,jdbcType=INTEGER}, #{typeid,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, -->
-<!--      #{detaildate,jdbcType=TIMESTAMP}, #{begintime,jdbcType=TIMESTAMP}, #{endtime,jdbcType=TIMESTAMP}, -->
-<!--      #{limitnum,jdbcType=INTEGER}, #{flag,jdbcType=VARCHAR}, #{limittime,jdbcType=TIMESTAMP}-->
-<!--      )-->
-<!--  </insert>-->
+  <insert id="insert" parameterType="cn.demo.beike.entity.Appointment" >
+    insert into appointment (id, typeID, createTime,
+      detailDate, beginTime, endTime,
+      limitNum, flag, limitTime
+      )
+    values (#{id,jdbcType=INTEGER}, #{typeid,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP},
+      #{detaildate,jdbcType=TIMESTAMP}, #{begintime,jdbcType=TIMESTAMP}, #{endtime,jdbcType=TIMESTAMP},
+      #{limitnum,jdbcType=INTEGER}, #{flag,jdbcType=VARCHAR}, #{limittime,jdbcType=TIMESTAMP}
+      )
+  </insert>
   <insert id="insertSelective" parameterType="cn.demo.beike.entity.Appointment" >
     insert into appointment
     <trim prefix="(" suffix=")" suffixOverrides="," >
