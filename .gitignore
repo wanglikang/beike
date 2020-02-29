@@ -6,3 +6,4 @@
 /logs/
 /sql/
 /src/main/resources/application-dev.yaml
+/local/
