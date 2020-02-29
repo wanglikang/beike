@@ -2,9 +2,7 @@ package cn.demo.beike.entity;
 
 import java.util.Date;
 
-public class AppointmentDetail {
-    private Integer id;
-
+public class AppointmentDetail extends AppointmentDetailKey {
     private Integer personnumber;
 
     private Date begintime;
@@ -12,16 +10,6 @@ public class AppointmentDetail {
     private Date endtime;
 
     private Integer number;
-
-    private Integer appointmentid;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public Integer getPersonnumber() {
         return personnumber;
@@ -55,11 +43,4 @@ public class AppointmentDetail {
         this.number = number;
     }
 
-    public Integer getAppointmentid() {
-        return appointmentid;
-    }
-
-    public void setAppointmentid(Integer appointmentid) {
-        this.appointmentid = appointmentid;
-    }
 }

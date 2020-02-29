@@ -20,7 +20,7 @@ public interface TypeMapper {
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insertUseGeneratedKeys(Type record);
 
-    /**
+    /**x
      * 返回非自增主键
      * @param type
      * @return
@@ -47,4 +47,9 @@ public interface TypeMapper {
     })
     @Select("select * from `type`")
     List<Type> selectAllType();
+
+
+    @ResultMap("typeResultMap")
+    @Select("select * from `type` where typeid = #{id}")
+    List<Type> selectTypeById(String id);
 }

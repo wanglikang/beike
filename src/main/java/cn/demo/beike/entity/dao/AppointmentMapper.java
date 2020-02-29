@@ -10,8 +10,6 @@ import java.util.Date;
 public interface AppointmentMapper {
     int deleteByPrimaryKey(Integer id);
 
-    @SelectKey(statement = "SELECT LAST_INSERT_ID()", keyProperty = "id", resultType = Long.class, before = false)
-    // @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(Appointment record);
 
     /**

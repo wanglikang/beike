@@ -69,14 +69,18 @@ public class PCController {
     public String NewAppointment(@RequestBody JSONObject jsonparam) {
         System.out.println(jsonparam);
         Appointment appointment = jsonparam.toJavaObject(Appointment.class);
-        int num = appointmentMapper.insert(appointment);
+//        int num = appointmentMapper.insert(appointment);
+        int num = appointmentMapper.insertSelective(appointment);
         JSONObject result = new JSONObject();
         if (num == 1) {
             result.put("id", appointment.getId());
+            result.put("SUCCESS", true);
         } else {
             result.put("SUCCESS", false);
             result.put("MSG", "预约失败！");
         }
+        logger.info("return ");
+        logger.info(result.toJSONString());
         return result.toJSONString();
     }
 

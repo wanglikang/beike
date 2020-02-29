@@ -35,7 +35,8 @@
       #{limitnum,jdbcType=INTEGER}, #{flag,jdbcType=VARCHAR}, #{limittime,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="cn.demo.beike.entity.Appointment" >
+  <insert id="insertSelective" parameterType="cn.demo.beike.entity.Appointment"
+          useGeneratedKeys="true" keyProperty="id" keyColumn="id" >
     insert into appointment
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
