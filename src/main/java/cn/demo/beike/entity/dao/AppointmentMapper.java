@@ -33,15 +33,17 @@ public interface AppointmentMapper {
             @Result(property = "appointmentId",column = "id"),
             @Result(property = "typeName",column = "typeName"),
             @Result(property = "number",column = "number"),
+            @Result(property = "date",column = "detailDate"),
 
     })
-    @Select("select a.* ,t.typeName,ad.`number` \n" +
+    @Select("select a.id, a.detailDate,t.typeName, sum(ad.`number`) as 'number' \n" +
             "from appointmentDetail ad left join  appointment a \n" +
             "on a.id = ad.appointmentID \n" +
             "left join `type` t \n" +
             "on  a.typeID=t.id\n" +
             "where t.id=#{typeId} and a.flag!='0' \n" +
-            "and isnull(a.typeID)=0 ")
+            "and isnull(a.typeID)=0 \n" +
+            "group by a.id ")
     List<AppointmentResultMapBean> selectAvailableAppointmentByTypeId(int typeId);
 
     @ResultMap( "availableAppointmentInfo")

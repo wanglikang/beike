@@ -19,7 +19,7 @@ public class Appointment {
 
     private String flag;
 
-    private Date limittime;
+    private int limittime;
 
     public Integer getId() {
         return id;
@@ -85,11 +85,11 @@ public class Appointment {
         this.flag = flag == null ? null : flag.trim();
     }
 
-    public Date getLimittime() {
+    public int getLimittime() {
         return limittime;
     }
 
-    public void setLimittime(Date limittime) {
+    public void setLimittime(int limittime) {
         this.limittime = limittime;
     }
 }

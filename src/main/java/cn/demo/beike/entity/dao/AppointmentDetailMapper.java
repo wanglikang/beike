@@ -28,8 +28,8 @@ public interface AppointmentDetailMapper {
             @Result(property = "begintime",column = "beginTime"),
             @Result(property = "endtime",column = "endTime"),
             @Result(property = "number",column = "number"),
-            @Result(property = "appointmentid",column = "appointmentID")
+            @Result(property = "appointmentId",column = "appointmentID")
     })
-    @Select("select * from appointmentDetail where appointmentId=#{id}")
+    @Select("select * from appointmentDetail where id=#{id}")
     List<AppointmentDetail> getAppointmentByAppointmentId(String id);
 }

@@ -14,9 +14,9 @@
         </commentGenerator>
 
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://www.lideshuai.cn/beike?useSSL=false"
-                        userId="xxxxxx"
-                        password="xxxxxxxx"/>
+                        connectionURL="jdbc:mysql://www.lideshuai.cn/beike2?useSSL=false"
+                        userId="root"
+                        password="lds819808"/>
 
         <javaModelGenerator targetPackage="cn.demo.beike.entity"
                             targetProject="src/main/java">
@@ -41,31 +41,31 @@
                selectByExampleQueryId="false">
         </table>
 
-        <table tableName="appointmentDetail" domainObjectName="AppointmentDetail"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false">
-        </table>
-        <table tableName="person" domainObjectName="Person"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false">
-        </table>
-        <table tableName="personalAppointment" domainObjectName="PersonalAppointment"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false">
-        </table>
-        <table tableName="root" domainObjectName="Root"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false">
-        </table>
-        <table tableName="type" domainObjectName="Type"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false">
-        </table>
+<!--        <table tableName="appointmentdetail" domainObjectName="AppointmentDetail"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false">-->
+<!--        </table>-->
+<!--        <table tableName="person" domainObjectName="Person"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false">-->
+<!--        </table>-->
+<!--        <table tableName="personal_appointment" domainObjectName="PersonalAppointment"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false">-->
+<!--        </table>-->
+<!--        <table tableName="root" domainObjectName="Root"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false">-->
+<!--        </table>-->
+<!--        <table tableName="type" domainObjectName="Type"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false">-->
+<!--        </table>-->
 
 
     </context>

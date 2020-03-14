@@ -43,4 +43,13 @@ public class AppointmentDetail extends AppointmentDetailKey {
         this.number = number;
     }
 
+    @Override
+    public String toString() {
+        return "AppointmentDetail{" +
+                "personnumber=" + personnumber +
+                ", begintime=" + begintime +
+                ", endtime=" + endtime +
+                ", number=" + number +
+                '}';
+    }
 }

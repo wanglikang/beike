@@ -3,7 +3,7 @@
 <mapper namespace="cn.demo.beike.entity.dao.AppointmentDetailMapper">
   <resultMap id="BaseResultMap" type="cn.demo.beike.entity.AppointmentDetail">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <id column="appointmentID" jdbcType="INTEGER" property="appointmentid" />
+    <id column="appointmentID" jdbcType="INTEGER" property="appointmentId" />
     <result column="personNumber" jdbcType="INTEGER" property="personnumber" />
     <result column="beginTime" jdbcType="TIMESTAMP" property="begintime" />
     <result column="endTime" jdbcType="TIMESTAMP" property="endtime" />
@@ -17,18 +17,18 @@
     <include refid="Base_Column_List" />
     from appointmentDetail
     where id = #{id,jdbcType=INTEGER}
-      and appointmentID = #{appointmentid,jdbcType=INTEGER}
+      and appointmentID = #{appointmentId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="cn.demo.beike.entity.AppointmentDetailKey">
     delete from appointmentDetail
     where id = #{id,jdbcType=INTEGER}
-      and appointmentID = #{appointmentid,jdbcType=INTEGER}
+      and appointmentID = #{appointmentId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="cn.demo.beike.entity.AppointmentDetail">
     insert into appointmentDetail (id, appointmentID, personNumber, 
       beginTime, endTime, number
       )
-    values (#{id,jdbcType=INTEGER}, #{appointmentid,jdbcType=INTEGER}, #{personnumber,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{appointmentId,jdbcType=INTEGER}, #{personnumber,jdbcType=INTEGER},
       #{begintime,jdbcType=TIMESTAMP}, #{endtime,jdbcType=TIMESTAMP}, #{number,jdbcType=INTEGER}
       )
   </insert>
@@ -38,7 +38,7 @@
       <if test="id != null">
         id,
       </if>
-      <if test="appointmentid != null">
+      <if test="appointmentId != null">
         appointmentID,
       </if>
       <if test="personnumber != null">
@@ -58,7 +58,7 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="appointmentid != null">
+      <if test="appointmentId != null">
         #{appointmentid,jdbcType=INTEGER},
       </if>
       <if test="personnumber != null">
@@ -92,7 +92,7 @@
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
-      and appointmentID = #{appointmentid,jdbcType=INTEGER}
+      and appointmentID = #{appointmentId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.demo.beike.entity.AppointmentDetail">
     update appointmentDetail
@@ -101,7 +101,7 @@
       endTime = #{endtime,jdbcType=TIMESTAMP},
       number = #{number,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
-      and appointmentID = #{appointmentid,jdbcType=INTEGER}
+      and appointmentID = #{appointmentId,jdbcType=INTEGER}
   </update>
 
 </mapper>

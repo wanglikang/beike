@@ -30,4 +30,13 @@ public class Type {
     public void setFlag(String flag) {
         this.flag = flag == null ? null : flag.trim();
     }
+
+    @Override
+    public String toString() {
+        return "Type{" +
+                "id=" + id +
+                ", typename='" + typename + '\'' +
+                ", flag='" + flag + '\'' +
+                '}';
+    }
 }

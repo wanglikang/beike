@@ -10,7 +10,7 @@
     <result column="endTime" property="endtime" jdbcType="TIMESTAMP" />
     <result column="limitNum" property="limitnum" jdbcType="INTEGER" />
     <result column="flag" property="flag" jdbcType="VARCHAR" />
-    <result column="limitTime" property="limittime" jdbcType="TIMESTAMP" />
+    <result column="limitTime" property="limittime" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, typeID, createTime, detailDate, beginTime, endTime, limitNum, flag, limitTime

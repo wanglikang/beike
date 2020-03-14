@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import redis.clients.jedis.Jedis;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -29,6 +30,9 @@ import java.util.concurrent.locks.ReentrantLock;
 @RequestMapping("/wx")
 public class WXController {
     public static Logger logger = LoggerFactory.getLogger(WXController.class);
+
+    SimpleDateFormat dateSdf = new SimpleDateFormat("yyyy-MM-dd");
+    SimpleDateFormat timeSdf = new SimpleDateFormat("HH:mm");
     @Autowired
     TypeMapper typeMapper;
 
@@ -41,8 +45,8 @@ public class WXController {
     @Autowired
     AppointmentMapper appointmentMapper;
 
-    @Autowired
-    GlobalCache globalCache;
+//    @Autowired
+//    GlobalCache globalCache;
 
 //    private Lock lock = new ReentrantLock();
     private ConcurrentHashMap<Integer,Integer> lockMap = new ConcurrentHashMap<>();
@@ -86,6 +90,7 @@ public class WXController {
 
     @PostMapping("/getAllAppointmentTypeByTypeId")
     public String getAllAppointmentTypeByTypeId(@RequestBody JSONObject jsonparam){
+        logger.info(jsonparam.toJSONString());
         int typeId = jsonparam.getInteger("typeId");
         Date paraTime = jsonparam.getDate("time");
 //        Object redisresultobj = globalCache.get("meta_typeId",null);
@@ -101,10 +106,12 @@ public class WXController {
             List<AppointmentResultMapBean> aresult = appointmentMapper.selectAvailableAppointmentByTypeId(typeId);
             if(aresult!=null && aresult.size()>0) {
                 aresult.stream().forEach(v -> {
+                    logger.info(v.toString());
                     JSONObject ele = new JSONObject();
                     ele.put("typeName", v.getTypeName());
                     ele.put("number", v.getNumber());
                     ele.put("appointmentID", v.getAppointmentId());
+                    ele.put("date",dateSdf.format(v.getDate()));
                     arrs.add(ele);
                 });
                 result.put("SUCCESS",true);
@@ -115,9 +122,9 @@ public class WXController {
                 logger.error(jsonparam.toString());
             }
 
-            if(arrs.size() > 0) {
-                globalCache.set("meta_typeId", arrs);
-            }
+//            if(arrs.size() > 0) {
+//                globalCache.set("meta_typeId", arrs);
+//            }
             logger.info("get meta_typeId\t"+typeId+"\tby sql");
 //        }
 
@@ -127,6 +134,7 @@ public class WXController {
 
     @PostMapping("/getAppointmentDetail")
     public String getAppointmentDetail(@RequestBody JSONObject jsonparam){
+        logger.info(jsonparam.toJSONString());
 
         String appointmentID = jsonparam.getString("appointmentID");
         //这个接口先不使用缓存
@@ -139,20 +147,21 @@ public class WXController {
                 JSONObject ele = new JSONObject();
                 ele.put("id", v.getId());
                 ele.put("personNumber", v.getPersonnumber());
-                ele.put("beginTime", v.getBegintime());
-                ele.put("endTime", v.getEndtime());
+                ele.put("beginTime",timeSdf.format(v.getBegintime()));
+                ele.put("endTime", timeSdf.format(v.getEndtime()));
                 ele.put("number", v.getNumber());
-                ele.put("appointmentId", v.getAppointmentid());
+                ele.put("appointmentId", v.getAppointmentId());
+                ele.put("appointmentDetailID", v.getId());
                 arrs.add(ele);
             });
             result.put("SUCCESS",true);
+            result.put("INFO",arrs);
         }else{
             result.put("SUCCESS",false);
             result.put("MSG","查找不到对应的信息");
             logger.error(jsonparam.toString());
         }
 
-        result.put("INFO",arrs);
 
 
         logger.info(result.toJSONString());
@@ -167,8 +176,8 @@ public class WXController {
      */
     @PostMapping("/makeAppointment")
     public String makeAppointment(@RequestBody JSONObject jsonObject){
-        logger.info("rev"+jsonObject.toJSONString());
-        int name = jsonObject.getInteger("name");//人员姓名
+        logger.info(jsonObject.toJSONString());
+        String name = jsonObject.getString("name");//人员姓名
         int number = jsonObject.getInteger("number");//人员工号
         int appointmentDetailID = jsonObject.getInteger("appointmentDetailID");//预约详情号
         JSONObject result = new JSONObject();

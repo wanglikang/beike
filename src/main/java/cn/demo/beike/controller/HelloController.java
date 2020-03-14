@@ -22,7 +22,7 @@ public class HelloController {
     public String testMybatis(){
         List<Type> types = typeMapper.selectAllType();
         for(Type type:types) {
-            System.out.println(types);
+            System.out.println(type);
         }
         return types.toString();
     }
