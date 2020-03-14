@@ -7,3 +7,4 @@
 /sql/
 /src/main/resources/application-dev.yaml
 /local/
+/src/main/resources/**.pfx
