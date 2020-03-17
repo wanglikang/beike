@@ -3,55 +3,78 @@
 <mapper namespace="cn.demo.beike.entity.dao.AppointmentDetailMapper">
   <resultMap id="BaseResultMap" type="cn.demo.beike.entity.AppointmentDetail">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <id column="appointmentID" jdbcType="INTEGER" property="appointmentId" />
-    <result column="personNumber" jdbcType="INTEGER" property="personnumber" />
-    <result column="beginTime" jdbcType="TIMESTAMP" property="begintime" />
-    <result column="endTime" jdbcType="TIMESTAMP" property="endtime" />
-    <result column="number" jdbcType="INTEGER" property="number" />
+    <id column="appointment_id" jdbcType="INTEGER" property="appointmentId" />
+    <result column="appointment_name" jdbcType="VARCHAR" property="appointmentName" />
+    <result column="person_number" jdbcType="INTEGER" property="personNumber" />
+    <result column="person_name" jdbcType="VARCHAR" property="personName" />
+    <result column="begin_time" jdbcType="TIMESTAMP" property="beginTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="available_number" jdbcType="INTEGER" property="availableNumber" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, appointmentID, personNumber, beginTime, endTime, number
+    id, appointment_id, appointment_name, person_number, person_name, begin_time, end_time, 
+    available_number, gmt_create, gmt_modified, status
   </sql>
   <select id="selectByPrimaryKey" parameterType="cn.demo.beike.entity.AppointmentDetailKey" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from appointmentDetail
+    from appointmentdetail
     where id = #{id,jdbcType=INTEGER}
-      and appointmentID = #{appointmentId,jdbcType=INTEGER}
+      and appointment_id = #{appointmentId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="cn.demo.beike.entity.AppointmentDetailKey">
-    delete from appointmentDetail
+    delete from appointmentdetail
     where id = #{id,jdbcType=INTEGER}
-      and appointmentID = #{appointmentId,jdbcType=INTEGER}
+      and appointment_id = #{appointmentId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="cn.demo.beike.entity.AppointmentDetail">
-    insert into appointmentDetail (id, appointmentID, personNumber, 
-      beginTime, endTime, number
-      )
-    values (#{id,jdbcType=INTEGER}, #{appointmentId,jdbcType=INTEGER}, #{personnumber,jdbcType=INTEGER},
-      #{begintime,jdbcType=TIMESTAMP}, #{endtime,jdbcType=TIMESTAMP}, #{number,jdbcType=INTEGER}
-      )
+    insert into appointmentdetail (id, appointment_id, appointment_name, 
+      person_number, person_name, begin_time, 
+      end_time, available_number, gmt_create, 
+      gmt_modified, status)
+    values (#{id,jdbcType=INTEGER}, #{appointmentId,jdbcType=INTEGER}, #{appointmentName,jdbcType=VARCHAR}, 
+      #{personNumber,jdbcType=INTEGER}, #{personName,jdbcType=VARCHAR}, #{beginTime,jdbcType=TIMESTAMP}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{availableNumber,jdbcType=INTEGER}, #{gmtCreate,jdbcType=TIMESTAMP}, 
+      #{gmtModified,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cn.demo.beike.entity.AppointmentDetail">
-    insert into appointmentDetail
+    insert into appointmentdetail
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
       </if>
       <if test="appointmentId != null">
-        appointmentID,
+        appointment_id,
       </if>
-      <if test="personnumber != null">
-        personNumber,
+      <if test="appointmentName != null">
+        appointment_name,
       </if>
-      <if test="begintime != null">
-        beginTime,
+      <if test="personNumber != null">
+        person_number,
       </if>
-      <if test="endtime != null">
-        endTime,
+      <if test="personName != null">
+        person_name,
       </if>
-      <if test="number != null">
-        number,
+      <if test="beginTime != null">
+        begin_time,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+      <if test="availableNumber != null">
+        available_number,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified,
+      </if>
+      <if test="status != null">
+        status,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -59,49 +82,83 @@
         #{id,jdbcType=INTEGER},
       </if>
       <if test="appointmentId != null">
-        #{appointmentid,jdbcType=INTEGER},
+        #{appointmentId,jdbcType=INTEGER},
       </if>
-      <if test="personnumber != null">
-        #{personnumber,jdbcType=INTEGER},
+      <if test="appointmentName != null">
+        #{appointmentName,jdbcType=VARCHAR},
       </if>
-      <if test="begintime != null">
-        #{begintime,jdbcType=TIMESTAMP},
+      <if test="personNumber != null">
+        #{personNumber,jdbcType=INTEGER},
       </if>
-      <if test="endtime != null">
-        #{endtime,jdbcType=TIMESTAMP},
+      <if test="personName != null">
+        #{personName,jdbcType=VARCHAR},
       </if>
-      <if test="number != null">
-        #{number,jdbcType=INTEGER},
+      <if test="beginTime != null">
+        #{beginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="availableNumber != null">
+        #{availableNumber,jdbcType=INTEGER},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="cn.demo.beike.entity.AppointmentDetail">
-    update appointmentDetail
+    update appointmentdetail
     <set>
-      <if test="personnumber != null">
-        personNumber = #{personnumber,jdbcType=INTEGER},
+      <if test="appointmentName != null">
+        appointment_name = #{appointmentName,jdbcType=VARCHAR},
       </if>
-      <if test="begintime != null">
-        beginTime = #{begintime,jdbcType=TIMESTAMP},
+      <if test="personNumber != null">
+        person_number = #{personNumber,jdbcType=INTEGER},
       </if>
-      <if test="endtime != null">
-        endTime = #{endtime,jdbcType=TIMESTAMP},
+      <if test="personName != null">
+        person_name = #{personName,jdbcType=VARCHAR},
       </if>
-      <if test="number != null">
-        number = #{number,jdbcType=INTEGER},
+      <if test="beginTime != null">
+        begin_time = #{beginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="availableNumber != null">
+        available_number = #{availableNumber,jdbcType=INTEGER},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
-      and appointmentID = #{appointmentId,jdbcType=INTEGER}
+      and appointment_id = #{appointmentId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.demo.beike.entity.AppointmentDetail">
-    update appointmentDetail
-    set personNumber = #{personnumber,jdbcType=INTEGER},
-      beginTime = #{begintime,jdbcType=TIMESTAMP},
-      endTime = #{endtime,jdbcType=TIMESTAMP},
-      number = #{number,jdbcType=INTEGER}
+    update appointmentdetail
+    set appointment_name = #{appointmentName,jdbcType=VARCHAR},
+      person_number = #{personNumber,jdbcType=INTEGER},
+      person_name = #{personName,jdbcType=VARCHAR},
+      begin_time = #{beginTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      available_number = #{availableNumber,jdbcType=INTEGER},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
-      and appointmentID = #{appointmentId,jdbcType=INTEGER}
+      and appointment_id = #{appointmentId,jdbcType=INTEGER}
   </update>
-
 </mapper>

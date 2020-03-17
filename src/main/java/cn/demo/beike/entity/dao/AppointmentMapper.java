@@ -31,29 +31,28 @@ public interface AppointmentMapper {
 
     @Results(id = "availableAppointmentInfo", value = {
             @Result(property = "appointmentId",column = "id"),
-            @Result(property = "typeName",column = "typeName"),
-            @Result(property = "number",column = "number"),
-            @Result(property = "date",column = "detailDate"),
-
+            @Result(property = "typeName",column = "type_name"),
+            @Result(property = "availableSumNumber",column = "available_sum_number"),
+            @Result(property = "date",column = "detail_date"),
     })
-    @Select("select a.id, a.detailDate,t.typeName, sum(ad.`number`) as 'number' \n" +
-            "from appointmentDetail ad left join  appointment a \n" +
-            "on a.id = ad.appointmentID \n" +
+    @Select("select a.id, a.detail_date,t.type_name, sum(ad.`available_number`) as 'available_sum_number' \n" +
+            "from appointmentdetail ad left join  appointment a \n" +
+            "on a.id = ad.appointment_id \n" +
             "left join `type` t \n" +
-            "on  a.typeID=t.id\n" +
+            "on  a.type_id=t.id\n" +
             "where t.id=#{typeId} and a.flag!='0' \n" +
-            "and isnull(a.typeID)=0 \n" +
+            "and isnull(a.type_id)=0 \n" +
             "group by a.id ")
     List<AppointmentResultMapBean> selectAvailableAppointmentByTypeId(int typeId);
 
-    @ResultMap( "availableAppointmentInfo")
-    @Select("select a.* ,t.typeName,ad.`number` \n" +
-            "from appointmentDetail ad left join  appointment a \n" +
-            "on a.id = ad.appointmentID \n" +
+//    @ResultMap( "availableAppointmentInfo")
+    @Select("select a.* ,t.type_name,ad.`available_number` \n" +
+            "from appointmentdetail ad left join  appointment a \n" +
+            "on a.id = ad.appointment_id \n" +
             "left join `type` t \n" +
-            "on  a.typeID=t.id\n" +
+            "on  a.type_id=t.id\n" +
             "where a.flag!='0' \n" +
-            "and isnull(a.typeID)=0")
+            "and isnull(a.type_id)=0")
     List<AppointmentResultMapBean> selectAllAvailableAppointment();
 
 }

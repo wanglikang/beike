@@ -42,19 +42,20 @@ public interface TypeMapper {
 
     @Results(id = "typeResultMap",value = {
             @Result(property = "id",column = "id",id = true),
-            @Result(property = "typename",column = "typeName"),
+            @Result(property = "typeName",column = "type_Name"),
             @Result(property = "flag",column = "flag")
     })
     @Select("select * from `type`")
     List<Type> selectAllType();
 
     @ResultMap("typeResultMap")
-    @Select("select t.* from `type` t where t.id in ( \n" +
-            "select t.id from appointment a \n" +
-            " left join `type` t \n" +
-            "on a.typeID=t.id \n" +
-            "where a.flag!='0' \n" +
-            "and isnull(a.typeID)=0 \n" +
+    @Select("select t.* from `type` t " +
+            "where t.id in ( \n" +
+                "select t.id from appointment a \n" +
+                " left join `type` t \n" +
+                "on a.type_id=t.id \n" +
+                "where a.flag!='0' \n" +
+                "and isnull(a.type_id)=0 \n" +
             ")")
     List<Type> selectAllAvailableType();
 

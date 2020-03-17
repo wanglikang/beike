@@ -22,11 +22,11 @@ public interface RootMapper {
 
     int updateByPrimaryKey(Root record);
 
-    @Results(id = "rootResultMap", value = {
-            @Result(property = "id",column = "id",id = true),
-            @Result(property = "loginname",column = "loginName"),
-            @Result(property = "pass",column = "pass")
-    })
-    @Select({"select * from root where loginName=#{loginName} and pass=#{pass}"})
+//    @Results(id = "rootResultMap", value = {
+//            @Result(property = "id",column = "id",id = true),
+//            @Result(property = "loginname",column = "loginName"),
+//            @Result(property = "pass",column = "pass")
+//    })
+    @Select({"select * from root where login_name=#{loginName} and password=#{pass}"})
     List<Root> findRoot(String loginName, String pass);
 }

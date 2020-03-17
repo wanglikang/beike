@@ -60,7 +60,7 @@ public class PCController {
                 result.put("MSG", "用户名和密码错误！");
             }else{
                 result.put("id",rootList.get(0).getId());
-                result.put("userName",rootList.get(0).getLoginname());
+                result.put("userName",rootList.get(0).getLoginName());
             }
         } else {
             result.put("SUCCESS", false);
@@ -80,6 +80,7 @@ public class PCController {
     public String NewAppointment(@RequestBody JSONObject jsonparam) {
         System.out.println(jsonparam);
         Appointment appointment = jsonparam.toJavaObject(Appointment.class);
+        logger.info(appointment.toString());
 //        int num = appointmentMapper.insert(appointment);
         int num = appointmentMapper.insertSelective(appointment);
         JSONObject result = new JSONObject();
@@ -92,19 +93,19 @@ public class PCController {
         }
 
 
-        int limittime = appointment.getLimittime();
-        long beginTime = appointment.getBegintime().getTime();
-        long endTime = appointment.getEndtime().getTime();
+        int limittime = appointment.getLimitTime();
+        long beginTime = appointment.getBeginTime().getTime();
+        long endTime = appointment.getEndTime().getTime();
         long currentStamp = beginTime;
         while(currentStamp<endTime){
             AppointmentDetail nAppointmentDetail = new AppointmentDetail();
-            nAppointmentDetail.setNumber(appointment.getLimitnum());
-            nAppointmentDetail.setBegintime(new Date(currentStamp));
-            nAppointmentDetail.setEndtime(new Date(currentStamp+limittime*60*1000));
-            nAppointmentDetail.setPersonnumber(0);
+            nAppointmentDetail.setAvailableNumber(appointment.getLimitNum());
+            nAppointmentDetail.setBeginTime(new Date(currentStamp));
+            nAppointmentDetail.setEndTime(new Date(currentStamp+limittime*60*1000));
+            nAppointmentDetail.setPersonNumber(0);
             nAppointmentDetail.setAppointmentId(appointment.getId());
 
-            appointmentDetailMapper.insert(nAppointmentDetail);
+            appointmentDetailMapper.insertSelective(nAppointmentDetail);
             currentStamp+=limittime*60*1000;
             logger.info("插入自动生成的appointmentDetail 记录。。。");
             logger.info(nAppointmentDetail.toString());
@@ -121,7 +122,7 @@ public class PCController {
         List<Type> types = typeMapper.selectAllType();
         for (Type type : types) {
             JSONObject curr = new JSONObject();
-            curr.put("typeName", type.getTypename());
+            curr.put("typeName", type.getTypeName());
             curr.put("typeID", type.getId());
             result.add(curr);
         }

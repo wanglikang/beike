@@ -1,142 +1,188 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="cn.demo.beike.entity.dao.AppointmentMapper" >
-  <resultMap id="BaseResultMap" type="cn.demo.beike.entity.Appointment" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="typeID" property="typeid" jdbcType="INTEGER" />
-    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
-    <result column="detailDate" property="detaildate" jdbcType="TIMESTAMP" />
-    <result column="beginTime" property="begintime" jdbcType="TIMESTAMP" />
-    <result column="endTime" property="endtime" jdbcType="TIMESTAMP" />
-    <result column="limitNum" property="limitnum" jdbcType="INTEGER" />
-    <result column="flag" property="flag" jdbcType="VARCHAR" />
-    <result column="limitTime" property="limittime" jdbcType="INTEGER" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.demo.beike.entity.dao.AppointmentMapper">
+  <resultMap id="BaseResultMap" type="cn.demo.beike.entity.Appointment">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="appointment_name" jdbcType="VARCHAR" property="appointmentName" />
+    <result column="type_id" jdbcType="INTEGER" property="typeId" />
+    <result column="type_name" jdbcType="VARCHAR" property="typeName" />
+    <result column="detail_date" jdbcType="TIMESTAMP" property="detailDate" />
+    <result column="begin_time" jdbcType="TIMESTAMP" property="beginTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="limit_num" jdbcType="INTEGER" property="limitNum" />
+    <result column="flag" jdbcType="VARCHAR" property="flag" />
+    <result column="limit_time" jdbcType="INTEGER" property="limitTime" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="status" jdbcType="TINYINT" property="status" />
   </resultMap>
-  <sql id="Base_Column_List" >
-    id, typeID, createTime, detailDate, beginTime, endTime, limitNum, flag, limitTime
+  <sql id="Base_Column_List">
+    id, appointment_name, type_id, type_name, detail_date, begin_time, end_time, limit_num, 
+    flag, limit_time, gmt_create, gmt_modified, status
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from appointment
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from appointment
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="cn.demo.beike.entity.Appointment" >
-    insert into appointment (id, typeID, createTime,
-      detailDate, beginTime, endTime,
-      limitNum, flag, limitTime
-      )
-    values (#{id,jdbcType=INTEGER}, #{typeid,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP},
-      #{detaildate,jdbcType=TIMESTAMP}, #{begintime,jdbcType=TIMESTAMP}, #{endtime,jdbcType=TIMESTAMP},
-      #{limitnum,jdbcType=INTEGER}, #{flag,jdbcType=VARCHAR}, #{limittime,jdbcType=TIMESTAMP}
-      )
+  <insert id="insert"  keyColumn="id" keyProperty="id" parameterType="cn.demo.beike.entity.Appointment" useGeneratedKeys="true">
+    insert into appointment (id, appointment_name, type_id, 
+      type_name, detail_date, begin_time, 
+      end_time, limit_num, flag, 
+      limit_time, gmt_create, gmt_modified, 
+      status)
+    values (#{id,jdbcType=INTEGER}, #{appointmentName,jdbcType=VARCHAR}, #{typeId,jdbcType=INTEGER}, 
+      #{typeName,jdbcType=VARCHAR}, #{detailDate,jdbcType=TIMESTAMP}, #{beginTime,jdbcType=TIMESTAMP}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{limitNum,jdbcType=INTEGER}, #{flag,jdbcType=VARCHAR}, 
+      #{limitTime,jdbcType=INTEGER}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=TINYINT})
   </insert>
-  <insert id="insertSelective" parameterType="cn.demo.beike.entity.Appointment"
-          useGeneratedKeys="true" keyProperty="id" keyColumn="id" >
+  <insert id="insertSelective"  keyColumn="id" keyProperty="id" parameterType="cn.demo.beike.entity.Appointment" useGeneratedKeys="true">
     insert into appointment
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         id,
       </if>
-      <if test="typeid != null" >
-        typeID,
+      <if test="appointmentName != null">
+        appointment_name,
       </if>
-      <if test="createtime != null" >
-        createTime,
+      <if test="typeId != null">
+        type_id,
       </if>
-      <if test="detaildate != null" >
-        detailDate,
+      <if test="typeName != null">
+        type_name,
       </if>
-      <if test="begintime != null" >
-        beginTime,
+      <if test="detailDate != null">
+        detail_date,
       </if>
-      <if test="endtime != null" >
-        endTime,
+      <if test="beginTime != null">
+        begin_time,
       </if>
-      <if test="limitnum != null" >
-        limitNum,
+      <if test="endTime != null">
+        end_time,
       </if>
-      <if test="flag != null" >
+      <if test="limitNum != null">
+        limit_num,
+      </if>
+      <if test="flag != null">
         flag,
       </if>
-      <if test="limittime != null" >
-        limitTime,
+      <if test="limitTime != null">
+        limit_time,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified,
+      </if>
+      <if test="status != null">
+        status,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="typeid != null" >
-        #{typeid,jdbcType=INTEGER},
+      <if test="appointmentName != null">
+        #{appointmentName,jdbcType=VARCHAR},
       </if>
-      <if test="createtime != null" >
-        #{createtime,jdbcType=TIMESTAMP},
+      <if test="typeId != null">
+        #{typeId,jdbcType=INTEGER},
       </if>
-      <if test="detaildate != null" >
-        #{detaildate,jdbcType=TIMESTAMP},
+      <if test="typeName != null">
+        #{typeName,jdbcType=VARCHAR},
       </if>
-      <if test="begintime != null" >
-        #{begintime,jdbcType=TIMESTAMP},
+      <if test="detailDate != null">
+        #{detailDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="endtime != null" >
-        #{endtime,jdbcType=TIMESTAMP},
+      <if test="beginTime != null">
+        #{beginTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="limitnum != null" >
-        #{limitnum,jdbcType=INTEGER},
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="flag != null" >
+      <if test="limitNum != null">
+        #{limitNum,jdbcType=INTEGER},
+      </if>
+      <if test="flag != null">
         #{flag,jdbcType=VARCHAR},
       </if>
-      <if test="limittime != null" >
-        #{limittime,jdbcType=TIMESTAMP},
+      <if test="limitTime != null">
+        #{limitTime,jdbcType=INTEGER},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="cn.demo.beike.entity.Appointment" >
+  <update id="updateByPrimaryKeySelective" parameterType="cn.demo.beike.entity.Appointment">
     update appointment
-    <set >
-      <if test="typeid != null" >
-        typeID = #{typeid,jdbcType=INTEGER},
+    <set>
+      <if test="appointmentName != null">
+        appointment_name = #{appointmentName,jdbcType=VARCHAR},
       </if>
-      <if test="createtime != null" >
-        createTime = #{createtime,jdbcType=TIMESTAMP},
+      <if test="typeId != null">
+        type_id = #{typeId,jdbcType=INTEGER},
       </if>
-      <if test="detaildate != null" >
-        detailDate = #{detaildate,jdbcType=TIMESTAMP},
+      <if test="typeName != null">
+        type_name = #{typeName,jdbcType=VARCHAR},
       </if>
-      <if test="begintime != null" >
-        beginTime = #{begintime,jdbcType=TIMESTAMP},
+      <if test="detailDate != null">
+        detail_date = #{detailDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="endtime != null" >
-        endTime = #{endtime,jdbcType=TIMESTAMP},
+      <if test="beginTime != null">
+        begin_time = #{beginTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="limitnum != null" >
-        limitNum = #{limitnum,jdbcType=INTEGER},
+      <if test="endTime != null">
+        end_time = #{endTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="flag != null" >
+      <if test="limitNum != null">
+        limit_num = #{limitNum,jdbcType=INTEGER},
+      </if>
+      <if test="flag != null">
         flag = #{flag,jdbcType=VARCHAR},
       </if>
-      <if test="limittime != null" >
-        limitTime = #{limittime,jdbcType=TIMESTAMP},
+      <if test="limitTime != null">
+        limit_time = #{limitTime,jdbcType=INTEGER},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="cn.demo.beike.entity.Appointment" >
+  <update id="updateByPrimaryKey" parameterType="cn.demo.beike.entity.Appointment">
     update appointment
-    set typeID = #{typeid,jdbcType=INTEGER},
-      createTime = #{createtime,jdbcType=TIMESTAMP},
-      detailDate = #{detaildate,jdbcType=TIMESTAMP},
-      beginTime = #{begintime,jdbcType=TIMESTAMP},
-      endTime = #{endtime,jdbcType=TIMESTAMP},
-      limitNum = #{limitnum,jdbcType=INTEGER},
+    set appointment_name = #{appointmentName,jdbcType=VARCHAR},
+      type_id = #{typeId,jdbcType=INTEGER},
+      type_name = #{typeName,jdbcType=VARCHAR},
+      detail_date = #{detailDate,jdbcType=TIMESTAMP},
+      begin_time = #{beginTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      limit_num = #{limitNum,jdbcType=INTEGER},
       flag = #{flag,jdbcType=VARCHAR},
-      limitTime = #{limittime,jdbcType=TIMESTAMP}
+      limit_time = #{limitTime,jdbcType=INTEGER},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=TINYINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

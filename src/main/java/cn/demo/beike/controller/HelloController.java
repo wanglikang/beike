@@ -33,7 +33,7 @@ public class HelloController {
     public String testInsertAutoIncrease(){
         Type newtype = new Type();
         newtype.setFlag("3");
-        newtype.setTypename("预约33");
+        newtype.setTypeName("预约33");
         typeMapper.insertUseSelectKey(newtype);
         System.out.println("new ID:"+newtype.getId());
         return newtype.getId()+"";

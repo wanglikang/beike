@@ -22,7 +22,5 @@ public class MyApplicationRunner implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         System.out.println("启动完成。。。");
-        System.arraycopy(new Object[]{},0,new Object[]{},1,10);
-        Collections.sort(new ArrayList<Integer>());
     }
 }

@@ -10,8 +10,17 @@ import java.sql.Date;
 public class AppointmentResultMapBean {
     public int appointmentId;
     public String typeName;
-    public int number;
+    //    public int number;
     public Date date;
+    public int availableSumNumber;
+
+    public int getAvailableSumNumber() {
+        return availableSumNumber;
+    }
+
+    public void setAvailableSumNumber(int availableSumNumber) {
+        this.availableSumNumber = availableSumNumber;
+    }
 
     public String getTypeName() {
         return typeName;
@@ -29,13 +38,6 @@ public class AppointmentResultMapBean {
         this.appointmentId = appointmentId;
     }
 
-    public int getNumber() {
-        return number;
-    }
-
-    public void setNumber(int number) {
-        this.number = number;
-    }
 
     public Date getDate() {
         return date;
@@ -50,8 +52,8 @@ public class AppointmentResultMapBean {
         return "AppointmentResultMapBean{" +
                 "appointmentId=" + appointmentId +
                 ", typeName='" + typeName + '\'' +
-                ", number=" + number +
                 ", date=" + date +
+                ", availableSumNumber=" + availableSumNumber +
                 '}';
     }
 }
