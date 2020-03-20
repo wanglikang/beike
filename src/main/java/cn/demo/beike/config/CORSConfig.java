@@ -24,6 +24,14 @@ import java.io.IOException;
 @Component
 public class CORSConfig implements Filter {
 
+    /**
+     * 配置跨域
+     * @param request
+     * @param response
+     * @param chain
+     * @throws IOException
+     * @throws ServletException
+     */
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
@@ -45,4 +53,3 @@ public class CORSConfig implements Filter {
     public void init(FilterConfig filterConfig) throws ServletException {
     }
 }
-
