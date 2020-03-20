@@ -1,19 +1,19 @@
 server:
-  port: 8080
+  port: 443
   address: 0.0.0.0
   sessionTimeout: 30
   servlet:
     context-path: /beike
-#  ssl:
-#        #        证书路径
-#      protocol: TLS
-#      key-store: classpath:3025365_www.lideshuai.cn.pfx
-#        #        key-store: classpath:3303574_www.zhishishua.com.pfx
-#      key-store-type: PKCS12
-#      key-alias: tomcat
-#      #    配置密码，就是在生成证书的时候输入的密码
-#      key-store-password: 2uXbb7Tx
-##    key-store-password: RSjCSc01
+  ssl:
+        #        证书路径
+      protocol: TLS
+      key-store: classpath:3025365_www.lideshuai.cn.pfx
+        #        key-store: classpath:3303574_www.zhishishua.com.pfx
+      key-store-type: PKCS12
+      key-alias: tomcat
+      #    配置密码，就是在生成证书的时候输入的密码
+      key-store-password: 2uXbb7Tx
+#    key-store-password: RSjCSc01
 spring:
   datasource:
     name: test1
