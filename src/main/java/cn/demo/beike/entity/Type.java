@@ -62,4 +62,16 @@ public class Type {
     public void setStatus(Byte status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return "Type{" +
+                "id=" + id +
+                ", typeName='" + typeName + '\'' +
+                ", flag='" + flag + '\'' +
+                ", gmtCreate=" + gmtCreate +
+                ", gmtModified=" + gmtModified +
+                ", status=" + status +
+                '}';
+    }
 }

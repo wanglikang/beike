@@ -2,6 +2,8 @@ package cn.demo.beike.controller;
 
 import cn.demo.beike.entity.Type;
 import cn.demo.beike.entity.dao.TypeMapper;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,10 +23,12 @@ public class HelloController {
     @ResponseBody
     public String testMybatis(){
         List<Type> types = typeMapper.selectAllType();
+        JSONArray arr =new JSONArray();
         for(Type type:types) {
-            System.out.println(type);
+            System.out.println(type.toString());
+            arr.add(JSONObject.toJSON(type));
         }
-        return types.toString();
+        return arr.toJSONString();
     }
 
 
