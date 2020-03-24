@@ -16,7 +16,7 @@
   </resultMap>
   <sql id="Base_Column_List">
     id, appointment_id, appointment_name, person_number, person_name, begin_time, end_time, 
-    available_number, gmt_create, gmt_modified, status
+    available_number, gmt_create, gmt_modified, status,typeId,typeName
   </sql>
   <select id="selectByPrimaryKey" parameterType="cn.demo.beike.entity.AppointmentDetailKey" resultMap="BaseResultMap">
     select 
@@ -76,6 +76,12 @@
       <if test="status != null">
         status,
       </if>
+      <if test="typeId != null">
+        type_id,
+      </if>
+      <if test="typeName != null">
+        type_name,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -110,6 +116,12 @@
       </if>
       <if test="status != null">
         #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="typeId != null">
+        #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="typeName != null">
+        #{typeName,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>

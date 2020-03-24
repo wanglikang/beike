@@ -120,15 +120,27 @@ public class PCController {
 
     @GetMapping("/GetAllType")
     public String GetALLType() {
-        JSONArray result = new JSONArray();
-        List<Type> types = typeMapper.selectAllType();
-        for (Type type : types) {
-            JSONObject curr = new JSONObject();
-            curr.put("typeName", type.getTypeName());
-            curr.put("typeID", type.getId());
-            result.add(curr);
+
+        JSONObject result = new JSONObject();
+        JSONArray arr = new JSONArray();
+        try {
+            List<Type> types = typeMapper.selectAllType();
+            for (Type type : types) {
+                JSONObject curr = new JSONObject();
+                curr.put("typeName", type.getTypeName());
+                curr.put("typeID", type.getId());
+                arr.add(curr);
+            }
+            result.put("SUCCESS", true);
+            result.put("INFO", arr);
+        }catch (Exception e){
+            result.put("SUCCESS", false);
+            e.printStackTrace();
         }
+        logger.info(result.toJSONString());
         return result.toJSONString();
+
+
     }
 
     /**
@@ -310,6 +322,9 @@ public class PCController {
             nAppointmentDetail.setEndTime(new Date(currentStamp+limittime*60*1000));
             nAppointmentDetail.setPersonNumber(0);
             nAppointmentDetail.setAppointmentId(newa.getId());
+            nAppointmentDetail.setTypeId(typeID);
+            nAppointmentDetail.setTypeName(typeName);
+
 
             appointmentDetailMapper.insertSelective(nAppointmentDetail);
             currentStamp += limittime * 60 * 1000;

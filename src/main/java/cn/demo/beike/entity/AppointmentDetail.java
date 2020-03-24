@@ -20,6 +20,24 @@ public class AppointmentDetail extends AppointmentDetailKey {
     private Date gmtModified;
 
     private String status;
+    private int typeId;
+    private String typeName;
+
+    public int getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeId(int typeId) {
+        this.typeId = typeId;
+    }
+
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
+    }
 
     public String getAppointmentName() {
         return appointmentName;

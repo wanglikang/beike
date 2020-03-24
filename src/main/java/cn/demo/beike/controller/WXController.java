@@ -46,7 +46,7 @@ public class WXController {
 //    @Autowired
 //    GlobalCache globalCache;
 
-//    private Lock lock = new ReentrantLock();
+//  private Lock lock = new ReentrantLock();
     private ConcurrentHashMap<Integer,Integer> lockMap = new ConcurrentHashMap<>();
 
     @GetMapping("/getAllAppointmentType")
