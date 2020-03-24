@@ -311,6 +311,7 @@ public class WXController {
         String name = jsonObject.getString("name");
         String number = jsonObject.getString("number");
         JSONObject result = new JSONObject();
+        logger.info(jsonObject.toJSONString());
 
         try {
             List<PersonalAppointment> pas = personalAppointmentMapper.selectAllAppointmentByPersonnumber(number);
@@ -337,8 +338,9 @@ public class WXController {
             result.put("SUCCESS", true);
             result.put("INFO", arr);
         }catch (Exception e){
-            result.put("SUCCESS", true);
-            result.put("MSG", "发生异常"+'\t'+"用户工号：" + number);
+            e.printStackTrace();
+            result.put("SUCCESS", false);
+            result.put("MSG", "发生异常"+"用户工号：\t" + number);
         }
 
         logger.info(result.toJSONString());

@@ -27,7 +27,24 @@ public class Appointment {
 
     private Date gmtModified;
 
-    private Byte status;
+    private int status;
+    private String remark;
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
 
     public Integer getId() {
         return id;
@@ -125,13 +142,7 @@ public class Appointment {
         this.gmtModified = gmtModified;
     }
 
-    public Byte getStatus() {
-        return status;
-    }
 
-    public void setStatus(Byte status) {
-        this.status = status;
-    }
 
     @Override
     public String toString() {
@@ -149,6 +160,7 @@ public class Appointment {
                 ", gmtCreate=" + gmtCreate +
                 ", gmtModified=" + gmtModified +
                 ", status=" + status +
+                ", remark='" + remark + '\'' +
                 '}';
     }
 }

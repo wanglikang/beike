@@ -15,11 +15,12 @@
     <result column="limit_time" jdbcType="INTEGER" property="limitTime" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
     <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
-    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Base_Column_List">
     id, appointment_name, type_id, type_name, detail_date, begin_time, end_time, limit_num, 
-    flag, limit_time, gmt_create, gmt_modified, status
+    flag, limit_time, gmt_create, gmt_modified, status,remark
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -36,12 +37,14 @@
       type_name, detail_date, begin_time, 
       end_time, limit_num, flag, 
       limit_time, gmt_create, gmt_modified, 
-      status)
+      status,remark)
     values (#{id,jdbcType=INTEGER}, #{appointmentName,jdbcType=VARCHAR}, #{typeId,jdbcType=INTEGER}, 
       #{typeName,jdbcType=VARCHAR}, #{detailDate,jdbcType=TIMESTAMP}, #{beginTime,jdbcType=TIMESTAMP}, 
       #{endTime,jdbcType=TIMESTAMP}, #{limitNum,jdbcType=INTEGER}, #{flag,jdbcType=VARCHAR}, 
       #{limitTime,jdbcType=INTEGER}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP}, 
-      #{status,jdbcType=TINYINT})
+      #{status,jdbcType=INTEGER},
+      #{remark,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective"  keyColumn="id" keyProperty="id" parameterType="cn.demo.beike.entity.Appointment" useGeneratedKeys="true">
     insert into appointment
@@ -85,6 +88,9 @@
       <if test="status != null">
         status,
       </if>
+      <if test="remark != null">
+        remark,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -124,7 +130,10 @@
         #{gmtModified,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
-        #{status,jdbcType=TINYINT},
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -165,7 +174,10 @@
         gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
-        status = #{status,jdbcType=TINYINT},
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -183,7 +195,8 @@
       limit_time = #{limitTime,jdbcType=INTEGER},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
-      status = #{status,jdbcType=TINYINT}
+      status = #{status,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

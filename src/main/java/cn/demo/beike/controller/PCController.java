@@ -265,14 +265,61 @@ public class PCController {
     @PostMapping("/AddAppointment")
     @ResponseBody
     public String AddAppointment(@RequestBody JSONObject jsonparam) {
-        System.out.println(jsonparam);
+        logger.info(jsonparam.toJSONString());
         JSONObject result = new JSONObject();
-        Appointment appointment = jsonparam.toJavaObject(Appointment.class);
-        logger.info(appointment.toString());
+        //{"limitTime":"30","limitNum":2,"typeName":"类型1","remark":"789",
+        // "beginTime":"2020-04-24T00:00:00.000Z","endTime":"2020-04-24T04:00:00.000Z","detailDate":"2020-03-03T16:00:00.000Z"}
+        //2
+        int limitTime = jsonparam.getInteger("limitTime");
+        int limitNum = jsonparam.getInteger("limitNum");
+        int typeID = jsonparam.getInteger("typeID");
+        String typeName = jsonparam.getString("typeName");
+        String remark = jsonparam.getString("remark");
+        Date beginTime = jsonparam.getDate("beginTime");
+        Date endTime = jsonparam.getDate("endTime");
+        Date detailDate = jsonparam.getDate("detailDate");
+
+//        Appointment appointment = jsonparam.toJavaObject(Appointment.class);
+        Appointment newa = new Appointment();
+        newa.setBeginTime(beginTime);
+        newa.setEndTime(endTime);
+        newa.setLimitNum(limitNum);
+        newa.setDetailDate(detailDate);
+        newa.setRemark(remark);
+        newa.setTypeName(typeName);
+        newa.setLimitTime(limitTime);
+        newa.setStatus(1);
+        newa.setFlag("1");
+        newa.setTypeId(typeID);
+
+
+//        logger.info(appointment.toString());
+        logger.info(newa.toString());
         // int num = appointmentMapper.insert(appointment);
-        int num = appointmentMapper.insertSelective(appointment);
+        int num = appointmentMapper.insertSelective(newa);
+
+
+        int limittime = newa.getLimitTime();
+        long beginTime_t = newa.getBeginTime().getTime();
+        long endTime_t = newa.getEndTime().getTime();
+        long currentStamp = beginTime_t;
+        while(currentStamp < endTime_t){
+            AppointmentDetail nAppointmentDetail = new AppointmentDetail();
+            nAppointmentDetail.setAvailableNumber(newa.getLimitNum());
+            nAppointmentDetail.setBeginTime(new Date(currentStamp));
+            nAppointmentDetail.setEndTime(new Date(currentStamp+limittime*60*1000));
+            nAppointmentDetail.setPersonNumber(0);
+            nAppointmentDetail.setAppointmentId(newa.getId());
+
+            appointmentDetailMapper.insertSelective(nAppointmentDetail);
+            currentStamp += limittime * 60 * 1000;
+            logger.info("插入自动生成的appointmentDetail 记录。。。");
+            logger.info(nAppointmentDetail.toString());
+        }
+
+
         if (num == 1) {
-            result.put("id", appointment.getId());
+            result.put("id", newa.getId());
         } else {
             result.put("SUCCESS", false);
             result.put("MSG", "预约失败！");
