@@ -11,6 +11,8 @@ import cn.demo.beike.entity.dao.TypeMapper;
 import cn.demo.beike.utils.GlobalCache;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -131,35 +133,39 @@ public class PCController {
 
     /**
      * 查询预约
-     * @param jsonparam
+     * @param pagesize
+     * @param pagenum
      * @return
      */
-    @PostMapping("/GetAppointment")
-    @ResponseBody
-    public String GetAppointment(@RequestBody JSONObject jsonparam) {
-        System.out.println(jsonparam);
-        JSONArray result = new JSONArray();
-        String typeName = jsonparam.getString("typeName");
-        Date detailDate = jsonparam.getDate("detailDate");
-        Date beginTime = jsonparam.getDate("beginTime");
-        Date endTime = jsonparam.getDate("endTime");
-        Integer limitTime = jsonparam.getInteger("limitTime");
-        Integer limitNum = jsonparam.getInteger("limitNum");
-        String flag = jsonparam.getString("flag");
-        List<Appointment> appointmentList = appointmentMapper.selectAppointment(typeName, detailDate,
-                beginTime, endTime, limitTime, limitNum, flag);
-        for (Appointment appointment : appointmentList) {
-            JSONObject curr = new JSONObject();
-            curr.put("typeName", appointment.getTypeName());
-            curr.put("detailDate", appointment.getDetailDate());
-            curr.put("beginTime", appointment.getBeginTime());
-            curr.put("endTime", appointment.getEndTime());
-            curr.put("limitTime", appointment.getLimitTime());
-            curr.put("limitNum", appointment.getLimitNum());
-            curr.put("flag", appointment.getFlag());
-            result.add(curr);
+    @GetMapping("/GetAppointment/{pagesize}_{pagenum}")
+    public String GetAppointment(@PathVariable int pagesize, @PathVariable int pagenum) {
+        if (pagesize <= 0)   pagesize = 10;
+        if (pagenum < 0)   pagenum = 1;
+        PageHelper.startPage(pagenum, pagesize);
+        List<Appointment> appointmentList = appointmentMapper.selectAppointment();
+        PageInfo<Appointment> appointmentPageInfo = new PageInfo<Appointment>(appointmentList);
+        JSONObject result = new JSONObject();
+        result.put("pageNum", appointmentPageInfo.getPageNum());
+        result.put("pageSize", appointmentPageInfo.getPageSize());
+        result.put("pages", appointmentPageInfo.getPages());
+        result.put("total", appointmentPageInfo.getTotal());
+
+        JSONArray jsonArray = new JSONArray();
+        logger.info(appointmentPageInfo.toString());
+        for (Appointment appointment : appointmentPageInfo.getList()) {
+            JSONObject object = new JSONObject();
+            object.put("id", appointment.getId());
+            object.put("typeName", appointment.getTypeName());
+            object.put("detailDate", appointment.getDetailDate());
+            object.put("beginTime", appointment.getBeginTime());
+            object.put("endTime", appointment.getEndTime());
+            object.put("limitTime", appointment.getLimitTime());
+            object.put("limitNum", appointment.getLimitNum());
+            object.put("flag", appointment.getFlag());
+            jsonArray.add(object);
         }
-        return result.toJSONString();
+        result.put("list", jsonArray);
+        return result.toString();
     }
 
     /**
@@ -174,8 +180,8 @@ public class PCController {
         JSONObject result = new JSONObject();
         Integer id = jsonparam.getInteger("id");
         Appointment appointment = appointmentMapper.selectByPrimaryKey(id);
-        logger.info(appointment.toString());
         if (appointment != null) {
+            logger.info(appointment.toString());
             result.put("typeName", appointment.getTypeName());
             result.put("detailDate", appointment.getDetailDate());
             result.put("beginTime", appointment.getBeginTime());

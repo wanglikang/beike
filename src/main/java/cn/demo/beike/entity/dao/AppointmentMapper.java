@@ -62,61 +62,6 @@ public interface AppointmentMapper {
      * @return List<Appointment>
      */
     @ResultMap("BaseResultMap")
-    @Select("<script>" +
-            "select * " +
-            "from appointment " +
-            "<if test='orderType != null'>" +
-            "where type_name=#{orderType} " +
-            "</if>" +
-            "<if test='detailDate != null'>" +
-                "<if test='orderType != null'>" +
-                "and detail_date=#{detailDate} " +
-                "</if>" +
-                "<if test='orderType == null'>" +
-                "where detail_date=#{detailDate} " +
-                "</if>" +
-            "</if>" +
-            "<if test='beginTime != null'>" +
-                "<if test='orderType != null or detailDate != null'>" +
-                "and begin_time=#{beginTime} " +
-                "</if>" +
-                "<if test='orderType == null and detailDate == null'>" +
-                "where begin_time=#{beginTime} " +
-                "</if>" +
-            "</if>" +
-            "<if test='endTime != null'>" +
-                "<if test='orderType != null or detailDate != null or beginTime != null'>" +
-                "and end_time=#{endTime} " +
-                "</if>" +
-                "<if test='orderType == null and detailDate == null and beginTime == null'>" +
-                "where end_time=#{endTime} " +
-                "</if>" +
-            "</if>" +
-            "<if test='limitTime != null'>" +
-                "<if test='orderType != null or detailDate != null or beginTime != null or endTime != null'>" +
-                "and limit_time=#{limitTime} " +
-                "</if>" +
-                "<if test='orderType == null and detailDate == null and beginTime == null and endTime == null'>" +
-                "where limit_time=#{limitTime} " +
-                "</if>" +
-            "</if>" +
-            "<if test='limitNum != null'>" +
-                "<if test='orderType != null or detailDate != null or beginTime != null or endTime != null or limitTime != null'>" +
-                "and limit_num=#{limitNum} " +
-                "</if>" +
-                "<if test='orderType == null and detailDate == null and beginTime == null and endTime == null and limitTime == null'>" +
-                "where limit_num=#{limitNum} " +
-                "</if>" +
-            "</if>" +
-            "<if test='flag != null'>" +
-                "<if test='orderType != null or detailDate != null or beginTime != null or endTime != null or limitTime != null or limitNum != null'>" +
-                "and flag=#{flag}" +
-                "</if>" +
-                "<if test='orderType == null and detailDate == null and beginTime == null and endTime == null and limitTime == null and limitNum == null'>" +
-                "where flag=#{flag}" +
-                "</if>" +
-            "</if>"+
-    "</script>")
-    List<Appointment> selectAppointment(String orderType, Date detailDate, Date beginTime,
-                                        Date endTime, Integer limitTime, Integer limitNum, String flag);
+    @Select("select * from appointment")
+    List<Appointment> selectAppointment();
 }
