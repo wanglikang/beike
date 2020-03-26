@@ -68,7 +68,7 @@ public interface AppointmentMapper {
             "select * " +
             "from appointment " +
             "<if test='typeName != null'>" +
-            "where type_name=#{typeName} " +
+            "where type_name like concat('%',#{typeName}, '%') " +
             "</if>" +
             "<if test='detailDate != null'>" +
             "<if test='typeName != null'>" +
