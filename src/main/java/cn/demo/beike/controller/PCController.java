@@ -1,9 +1,6 @@
 package cn.demo.beike.controller;
 
-import cn.demo.beike.entity.Appointment;
-import cn.demo.beike.entity.AppointmentDetail;
-import cn.demo.beike.entity.Root;
-import cn.demo.beike.entity.Type;
+import cn.demo.beike.entity.*;
 import cn.demo.beike.entity.dao.AppointmentDetailMapper;
 import cn.demo.beike.entity.dao.AppointmentMapper;
 import cn.demo.beike.entity.dao.RootMapper;
@@ -16,11 +13,15 @@ import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/pc")
@@ -153,10 +154,11 @@ public class PCController {
     public String GetAppointment(@PathVariable int pagesize, @PathVariable int pagenum) {
         if (pagesize <= 0)   pagesize = 10;
         if (pagenum < 0)   pagenum = 1;
-        PageHelper.startPage(pagenum, pagesize);
-        List<Appointment> appointmentList = appointmentMapper.selectAppointment();
-        PageInfo<Appointment> appointmentPageInfo = new PageInfo<Appointment>(appointmentList);
         JSONObject result = new JSONObject();
+        List<Appointment> appointmentList;
+        PageHelper.startPage(pagenum, pagesize);
+        appointmentList= appointmentMapper.selectAppointment(null, null);
+        PageInfo<Appointment> appointmentPageInfo = new PageInfo<Appointment>(appointmentList);
         result.put("pageNum", appointmentPageInfo.getPageNum());
         result.put("pageSize", appointmentPageInfo.getPageSize());
         result.put("pages", appointmentPageInfo.getPages());
@@ -167,13 +169,17 @@ public class PCController {
         for (Appointment appointment : appointmentPageInfo.getList()) {
             JSONObject object = new JSONObject();
             object.put("id", appointment.getId());
+            object.put("appointmentName", appointment.getAppointmentName());
+            object.put("typeId", appointment.getTypeId());
             object.put("typeName", appointment.getTypeName());
             object.put("detailDate", appointment.getDetailDate());
             object.put("beginTime", appointment.getBeginTime());
             object.put("endTime", appointment.getEndTime());
-            object.put("limitTime", appointment.getLimitTime());
             object.put("limitNum", appointment.getLimitNum());
             object.put("flag", appointment.getFlag());
+            object.put("limitTime", appointment.getLimitTime());
+            object.put("status", appointment.getStatus());
+            object.put("remark", appointment.getRemark());
             jsonArray.add(object);
         }
         result.put("list", jsonArray);
@@ -341,4 +347,124 @@ public class PCController {
         }
         return result.toJSONString();
     }
+
+    /**
+     * 根据类型名查询
+     * @param typeName
+     * @return
+     */
+    @GetMapping("/SelectAppointmentByTn/{typeName}")
+    public String SelectAppointmentByTn(@PathVariable String typeName) {
+        List<Appointment> appointmentList= appointmentMapper.selectAppointment(typeName, null);
+        JSONArray result = new JSONArray();
+        logger.info(appointmentList.toString());
+        for (Appointment appointment : appointmentList) {
+            JSONObject object = new JSONObject();
+            object.put("id", appointment.getId());
+            object.put("appointmentName", appointment.getAppointmentName());
+            object.put("typeId", appointment.getTypeId());
+            object.put("typeName", appointment.getTypeName());
+            object.put("detailDate", appointment.getDetailDate());
+            object.put("beginTime", appointment.getBeginTime());
+            object.put("endTime", appointment.getEndTime());
+            object.put("limitNum", appointment.getLimitNum());
+            object.put("flag", appointment.getFlag());
+            object.put("limitTime", appointment.getLimitTime());
+            object.put("status", appointment.getStatus());
+            object.put("remark", appointment.getRemark());
+            result.add(object);
+        }
+        return result.toString();
+    }
+
+    /**
+     * 查询预约详情表
+     * @param pagesize
+     * @param pagenum
+     * @return
+     */
+    @GetMapping("/GetDetailApp/{pagesize}_{pagenum}")
+    public String GetDetailApp(@PathVariable int pagesize, @PathVariable int pagenum) {
+        if (pagesize <= 0)   pagesize = 10;
+        if (pagenum < 0)   pagenum = 1;
+        JSONObject result = new JSONObject();
+        PageHelper.startPage(pagenum, pagesize);
+        List<AppointmentDetail> appointmentDetails= appointmentDetailMapper.getAllAppointmentDetails();
+        PageInfo<AppointmentDetail> appointmentDetailPageInfo = new PageInfo<AppointmentDetail>(appointmentDetails);
+        result.put("pageNum", appointmentDetailPageInfo.getPageNum());
+        result.put("pageSize", appointmentDetailPageInfo.getPageSize());
+        result.put("pages", appointmentDetailPageInfo.getPages());
+        result.put("total", appointmentDetailPageInfo.getTotal());
+
+        JSONArray jsonArray = new JSONArray();
+        logger.info(appointmentDetailPageInfo.toString());
+        for (AppointmentDetail appointmentDetail : appointmentDetailPageInfo.getList()) {
+            JSONObject object = new JSONObject();
+            object.put("id", appointmentDetail.getId());
+            object.put("appointmentName", appointmentDetail.getAppointmentName());
+            object.put("personNumber", appointmentDetail.getPersonNumber());
+            object.put("personName", appointmentDetail.getPersonName());
+            object.put("beginTime", appointmentDetail.getBeginTime());
+            object.put("endTime", appointmentDetail.getEndTime());
+            object.put("availableNumber", appointmentDetail.getAvailableNumber());
+            object.put("status", appointmentDetail.getStatus());
+            object.put("typeId", appointmentDetail.getTypeId());
+            object.put("typeName", appointmentDetail.getTypeName());
+            jsonArray.add(object);
+        }
+        result.put("list", jsonArray);
+        return result.toString();
+    }
+
+    @GetMapping("/AppointmentStatostics")
+    public String AppointmentStatostics() {
+        List<StaticBean> staticBeans = appointmentMapper.selectAppointmentStatostics();
+        JSONArray result = new JSONArray();
+        logger.info(staticBeans.toString());
+        for (StaticBean bean: staticBeans) {
+            JSONObject object = new JSONObject();
+            object.put("typeName", bean.getTypeName());
+            object.put("detailDate", bean.getDetailDate());
+            object.put("beginTime", bean.getBeginTime());
+            object.put("endTime", bean.getEndTime());
+            object.put("limitNum", bean.getLimitNum());
+            object.put("number", bean.getNumber());
+            result.add(object);
+        }
+        return result.toString();
+    }
+
+    /**
+     * 根据时间查询
+     * @param detailDate
+     * @return
+     */
+    @GetMapping("/SelectAppointmentByTime/{detailDate}")
+    public String SelectAppointmentByTime(@PathVariable String detailDate) throws ParseException {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");//注意月份是MM
+        Date date = simpleDateFormat.parse(detailDate);
+        List<Appointment> appointmentList= appointmentMapper.selectAppointment(null, date);
+        JSONArray result = new JSONArray();
+        logger.info(appointmentList.toString());
+        for (Appointment appointment : appointmentList) {
+            JSONObject object = new JSONObject();
+            object.put("id", appointment.getId());
+            object.put("appointmentName", appointment.getAppointmentName());
+            object.put("typeId", appointment.getTypeId());
+            object.put("typeName", appointment.getTypeName());
+            object.put("detailDate", appointment.getDetailDate());
+            object.put("beginTime", appointment.getBeginTime());
+            object.put("endTime", appointment.getEndTime());
+            object.put("limitNum", appointment.getLimitNum());
+            object.put("flag", appointment.getFlag());
+            object.put("limitTime", appointment.getLimitTime());
+            object.put("status", appointment.getStatus());
+            object.put("remark", appointment.getRemark());
+            result.add(object);
+        }
+        return result.toString();
+    }
+
+    // 我先自己试一试，ok
+
 }

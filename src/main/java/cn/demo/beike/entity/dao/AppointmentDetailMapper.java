@@ -34,6 +34,9 @@ public interface AppointmentDetailMapper {
     @Select("select * from appointmentdetail where appointment_id=#{appointmentId}")
     List<AppointmentDetail> getAppointmentDetailsByAppointmentId(String appointmentId);
 
+    @ResultMap("AppointmentDetailResultMap")
+    @Select("select * from appointmentdetail")
+    List<AppointmentDetail> getAllAppointmentDetails();
 
     @ResultMap("AppointmentDetailResultMap")
     @Select("select * from appointmentdetail where id=#{appointmentdetailId}")

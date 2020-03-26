@@ -2,6 +2,7 @@ package cn.demo.beike.entity.dao;
 
 import cn.demo.beike.entity.Appointment;
 import cn.demo.beike.entity.AppointmentResultMapBean;
+import cn.demo.beike.entity.StaticBean;
 import cn.demo.beike.entity.Type;
 import org.apache.ibatis.annotations.*;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public interface AppointmentMapper {
@@ -62,6 +64,41 @@ public interface AppointmentMapper {
      * @return List<Appointment>
      */
     @ResultMap("BaseResultMap")
-    @Select("select * from appointment")
-    List<Appointment> selectAppointment();
+    @Select("<script>" +
+            "select * " +
+            "from appointment " +
+            "<if test='typeName != null'>" +
+            "where type_name=#{typeName} " +
+            "</if>" +
+            "<if test='detailDate != null'>" +
+            "<if test='typeName != null'>" +
+            "and detail_date=#{detailDate} " +
+            "</if>" +
+            "<if test='typeName == null'>" +
+            "where detail_date=#{detailDate} " +
+            "</if>" +
+            "</if>"+
+            "</script>")
+    List<Appointment> selectAppointment(String typeName, Date detailDate);
+
+//    @ResultMap("BaseResultMap")
+    @Results(id="staticBeanMap",value = {
+            @Result(column = "typeName",property = "typeName"),
+            @Result(column = "detailDate",property = "detailDate"),
+            @Result(column = "beginTime",property = "beginTime"),
+            @Result(column = "endTime",property = "endTime"),
+            @Result(column = "limitNum",property = "limitNum"),
+            @Result(column = "number",property = "number"),
+    })
+    @Select("SELECT appointment.type_name AS typeName, " +
+            "appointment.detail_date AS detailDate, " +
+            "appointment.begin_time AS beginTime, " +
+            "appointment.end_time AS endTime, " +
+            "SUM(appointment.limit_num) AS limitNum, " +
+            "SUM(appointment.limit_num - appointmentdetail.available_number) AS number " +
+            "FROM appointment " +
+            "RIGHT JOIN appointmentdetail " +
+            "ON appointment.id = appointmentdetail.appointment_id " +
+            "GROUP BY appointment.type_name, appointment.detail_date, appointment.begin_time, appointment.end_time")
+    public List<StaticBean> selectAppointmentStatostics();
 }
